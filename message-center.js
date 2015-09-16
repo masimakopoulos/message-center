@@ -25,6 +25,7 @@ MessageCenterModule
   })
   .service('messageCenterService', ['$rootScope', '$sce', '$timeout','$messageCenterService',
     function ($rootScope, $sce, $timeout,$messageCenterService) {
+      var availableTypes = ['info', 'warning', 'danger', 'success'];
       return {
         mcMessages: this.mcMessages || [],
         offlistener: this.offlistener || undefined,
@@ -40,19 +41,18 @@ MessageCenterModule
           permanent: 'permanent'
         },
         add: function (type, message, options) {
-          var availableTypes = ['info', 'warning', 'danger', 'success'],
-            service = this;
           options = options || {};
           var options = angular.extend($messageCenterService.getOptions(), options);
-          if (availableTypes.indexOf(type) == -1) {
+          if (availableTypes.indexOf(type) === -1) {
             throw "Invalid message type";
           }
+          var _this = this;
           var messageObject = {
             type: type,
             status: options.status || this.status.unseen,
             processed: false,
             close: function() {
-              return service.remove(this);
+              return _this.remove(this);
             }
           };
           messageObject.message = options.html ? $sce.trustAsHtml(message) : message;
