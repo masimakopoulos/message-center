@@ -66,15 +66,18 @@ MessageCenterModule
           return messageObject;
         },
         remove: function (message) {
+          if(!message) return;
           var index = this.mcMessages.indexOf(message);
-          this.mcMessages.splice(index, 1);
+          if (index !== -1) {
+            this.mcMessages.splice(index, 1);
+          }
         },
         reset: function () {
           this.mcMessages = [];
         },
         removeShown: function () {
           for (var index = this.mcMessages.length - 1; index >= 0; index--) {
-            if (this.mcMessages[index].status == this.status.shown) {
+            if (this.mcMessages[index].status === this.status.shown) {
               this.remove(this.mcMessages[index]);
             }
           }
@@ -82,11 +85,11 @@ MessageCenterModule
         markShown: function () {
           for (var index = this.mcMessages.length - 1; index >= 0; index--) {
             if (!this.mcMessages[index].processed) {
-              if (this.mcMessages[index].status == this.status.unseen) {
+              if (this.mcMessages[index].status === this.status.unseen) {
                 this.mcMessages[index].status = this.status.shown;
                 this.mcMessages[index].processed = true;
               }
-              else if (this.mcMessages[index].status == this.status.next) {
+              else if (this.mcMessages[index].status === this.status.next) {
                 this.mcMessages[index].status = this.status.unseen;
               }
             }
