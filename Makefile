@@ -1,4 +1,4 @@
-KARMA = ./node_modules/karma/bin/karma start test/karma.conf.js --browsers PhantomJS --single-run
+KARMA = ./node_modules/protractor/bin/protractor test/protractor_conf.js
 
 install:; @npm install
 

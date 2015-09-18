@@ -11,10 +11,10 @@ MessageCenterModule
     _this.options = {};
     _this.setGlobalOptions = function(options) {
       _this.options = options;
-    }
-    _this.getOptions = function(options) {
+    };
+    _this.getOptions = function() {
       return _this.options;
-    }
+    };
     this.$get = function() {
       return {
         setGlobalOptions: _this.setGlobalOptions,
@@ -41,8 +41,7 @@ MessageCenterModule
           permanent: 'permanent'
         },
         add: function (type, message, options) {
-          options = options || {};
-          var options = angular.extend($messageCenterService.getOptions(), options);
+          options = angular.extend($messageCenterService.getOptions(), options || {});
           if (availableTypes.indexOf(type) === -1) {
             throw "Invalid message type";
           }
@@ -124,7 +123,7 @@ MessageCenterModule.
       link: function(scope, element, attrs) {
         // Bind the messages from the service to the root scope.
         messageCenterService.flush();
-        var changeReaction = function (event, to, from) {
+        var changeReaction = function (/*event, to, from*/) {
           // Update 'unseen' messages to be marked as 'shown'.
           messageCenterService.markShown();
           // Remove the messages that have been shown.
